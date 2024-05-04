@@ -97,7 +97,7 @@ function dropdown() {
 
 //     const response = await fetch(url, {
 //         method: 'GET',
-        
+
 //     });
 
 //     if (!response.ok) {
@@ -111,8 +111,10 @@ function dropdown() {
 // }
 
 function add() {
-    if
     playSound();
+    if (tasks.style.display == "none") {
+        return;
+    }
     if (taskCount < 6) {
         taskCount++;
         const taskDiv = document.createElement("div");
@@ -175,9 +177,11 @@ function hide() {
     if (tasks.style.display === "grid") {
         tasks.style.display = "none";
         percent.style.display = "none";
+        addButton.style.cursor = "not-allowed";
     } else if (tasks.style.display === "none") {
         tasks.style.display = "grid";
         percent.style.display = "block";
+        addButton.style.cursor = "pointer";
     }
 }
 
