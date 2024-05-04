@@ -3,11 +3,15 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
 const session = require('express-session');
+const cors = require('cors');
 const User = require('./models/User'); // Assuming your User model is in a separate file
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// CORS middleware
+app.use(cors());
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
@@ -21,7 +25,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-
   User.findById(id, (err, user) => {
     done(err, user);
   });
@@ -32,7 +35,7 @@ passport.use(new DiscordStrategy({
   clientID: process.env.DISCORD_CLIENT_ID,
   clientSecret: process.env.DISCORD_CLIENT_SECRET,
   callbackURL: process.env.DISCORD_CALLBACK_URL,
-  scopes: ['identity', 'email']
+  scope: ['identify', 'email'], // Moved scope here
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     const user = await User.findOne({ discordId: profile.id });
@@ -52,7 +55,6 @@ passport.use(new DiscordStrategy({
   }
 }));
 
-
 // Express middlewares
 app.use(express.json());
 app.use(session({
@@ -69,11 +71,17 @@ app.get('/', (req, res) => {
   res.send('Home Page');
 });
 
-app.get('/auth/discord', passport.authenticate('discord', { scope: ['identify', 'email'] }));
+app.get('/auth/discord', passport.authenticate('discord'));
 app.get('/auth/discord/callback', passport.authenticate('discord', {
   successRedirect: '/',
   failureRedirect: '/login',
 }));
+
+// Fix the Access-Control-Allow-Origin header
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://localhost:5501');
+  next();
+});
 
 app.get('/profile', (req, res) => {
   if (req.isAuthenticated()) {
@@ -84,9 +92,9 @@ app.get('/profile', (req, res) => {
 });
 
 // Route to add a task for a user
-app.post('/tasks/add', (req, res) => {
+app.get('/tasks/add', (req, res) => {
   if (req.isAuthenticated()) {
-    const { task_name } = req.body;
+    const { task_name } = req.query; // Extract task_name from query parameters
     const userId = req.user._id; // Assuming user ID is stored in the session
 
     User.findById(userId, (err, user) => {
@@ -114,6 +122,7 @@ app.post('/tasks/add', (req, res) => {
     res.status(401).json({ message: 'Unauthorized' });
   }
 });
+
 
 // Start server
 app.listen(port, () => {
