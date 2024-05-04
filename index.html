@@ -9,13 +9,13 @@
     <meta content="FocusFrame" property="og:title" />
     <meta content="A minimalistic and customizable study dashboard." property="og:description" />
     <meta content="focusframe.ah07.xyz" property="og:url" />
-    <meta content="https://i.imgur.com/WB8I5Hx.png" property="og:image" />
+    <meta content="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Red_Star_OS_Logo.svg/1200px-Red_Star_OS_Logo.svg.png" property="og:image" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
 
-    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/WB8I5Hx.png">
+    <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Red_Star_OS_Logo.svg/1200px-Red_Star_OS_Logo.svg.png">
 
     <link rel="stylesheet" href="./src/main.css">
 
@@ -32,13 +32,9 @@
             <button onclick="settings()"><i class="fa-solid fa-gear"></i></button>
         </div>
     </header>
-    <main>
+    <div id="bgset">
         <div id="settingsmenu">
             <form id="form">
-                <div class="side">
-                    <button type="button" onclick="switchMenu(1)">General</button>
-                    <button type="button" onclick="switchMenu(2)">Customization</button>
-                </div>
                 <div id="customizations">
                     <div id="backgroundcustom">
                         <div>
@@ -52,15 +48,14 @@
                         </div>
                     </div>
                 </div>
-                <div id="general">
-            
-                </div>
                 <div id="menuButtons">
                     <button title="Cancel" type="reset">Cancel</button>
                     <button title="Save Changes" type="submit">Save</button>
                 </div>
             </form>
         </div>
+    </div>
+    <main>
         <div id="center">
             <h1 id="percent">No Tasks!</h1>
             <h2 id="motivation" contenteditable="True"></h2>

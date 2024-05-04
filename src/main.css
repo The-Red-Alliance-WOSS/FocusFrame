@@ -36,8 +36,17 @@ body {
     transition: background-color 0.25s;
 }
 
-.menuElementBottomMargin {
-    margin-bottom: 2rem;
+#bgset {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 9900;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: background-color 0.25s;
+    display: flex;
+    visibility: hidden;
+    align-items: center;
+    justify-content: center;
 }
 
 header {
@@ -47,7 +56,8 @@ header {
     padding: 2rem 2rem 2rem 2rem;
     position: absolute;
     width: 100%;
-    z-index: 9998;
+    z-index: 2;
+
 } header button {
     font-size: 1.5em;
     border-radius: 1000rem;
@@ -81,7 +91,7 @@ main {
     height: 100%;
     justify-content: center;
     flex-direction: column;
-    z-index: 9000;
+    z-index: 1;
     display: flex;
     justify-content: center;
 }
@@ -177,8 +187,7 @@ main h2{
     background-color: hsl(0, 0%, 10%);
     position: absolute;
     border-radius: 1rem;
-    width: 40rem;
-    height: 30rem;
+    max-width: 100%;
     font-family: 'Rubik', sans-serif;
     transition: display 0.5s;
     animation-name: menuAppear;
@@ -206,7 +215,8 @@ main h2{
         'menu footer';
     align-items: center;
     align-content: space-between;
-    justify-items: start;
+    justify-items: center;
+    justify-content: center;
 }
 
 #form button {
@@ -233,7 +243,7 @@ main h2{
     width: 80%;
     text-align: center;
     grid-area: main;
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -278,29 +288,6 @@ main h2{
 
 #customizations h3 {
     margin-bottom: 0.3rem;
-}
-
-.side {
-    height: 100%;
-    border-radius: 1rem 0 0 1rem;
-    background-color: hsl(0, 0%, 5%);
-    padding: 2.5rem;
-    grid-area: menu;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.side button {
-    padding: 2rem 0 2rem 0;
-    color: white;
-    background-color: transparent !important;
-}
-
-.side button:hover {
-    color: white !important;
-    background-color: transparent !important;
-    text-decoration: underline;
 }
 
 #menuButtons {

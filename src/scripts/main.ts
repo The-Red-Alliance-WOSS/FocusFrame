@@ -6,12 +6,12 @@ const addButton = document.getElementById("addButton") as HTMLInputElement;
 const dropd = document.getElementById("dropd") as HTMLInputElement;
 const dropdownButton = document.getElementById("dropdown") as HTMLInputElement;
 const background = document.getElementById("bg") as HTMLInputElement;
+const bgset = document.getElementById("bgset") as HTMLInputElement;
 const settingsMenu = document.getElementById("settingsmenu") as HTMLInputElement;
 const form = document.getElementById("form") as HTMLInputElement;
 const colInput: any = document.getElementById("colinput") as HTMLInputElement;
 const imgInput: any = document.getElementById("imginput") as HTMLInputElement;
 const chooseImg: any = document.getElementById("chooseImg") as HTMLInputElement;
-const general = document.getElementById("general") as HTMLInputElement;
 const customization = document.getElementById("customizations") as HTMLInputElement
 
 const icon = hideButton.querySelector("i");
@@ -22,6 +22,7 @@ pressSound.volume = 0.5;
 tasks.style.display = "grid";
 dropd.style.display = "none"
 settingsMenu.style.display = "none";
+bgset.style.visibility = "hidden";
 
 let taskCount = 0;
 
@@ -75,16 +76,17 @@ function setRandomBackgroundColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     document.body.style.backgroundColor = color;
+    colInput.value = color;
 }
 
 setRandomBackgroundColor();
 
 function dropdown() {
     playSound();
-    if(dropd.style.display == "none"){
+    if (dropd.style.display == "none") {
         dropd.style.display = "flex";
         dropdownButton.style.borderRadius = "1000rem 0 0 1000rem"
-    } else if(dropd.style.display == "flex"){
+    } else if (dropd.style.display == "flex") {
         dropd.style.display = "none"
         dropdownButton.style.borderRadius = "1000rem"
     }
@@ -113,6 +115,12 @@ function add() {
                 taskText.textContent = truncatedText;
             }
         });
+
+        taskText.addEventListener('keydown', (event) => {
+            if (event.key === "Enter" || (event.key === "Enter" && event.ctrlKey)) {
+                event.preventDefault();
+            }
+        })
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -168,42 +176,40 @@ motiv.addEventListener("keydown", (event) => {
 
 function settings() {
     playSound()
-    if (settingsMenu.style.display == "none") {
-        settingsMenu.style.display = "block";
-      background.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
-    } else if (settingsMenu.style.display == "block") {
+    if (bgset.style.visibility == "hidden") {
+        settingsMenu.style.display = "grid";
+        bgset.style.visibility = "visible";
+    } else if (bgset.style.visibility = "visible") {
         settingsMenu.style.display = "none";
-      background.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+        bgset.style.visibility = "hidden";
     }
 }
-
-function switchMenu(val: number) {
-    playSound()
-    if (val == 2) {
-      general.style.display = "none";
-      customization.style.display = "flex";
-    } else if (val == 1) {
-      general.style.display = "flex";
-      customization.style.display = "none";
-    }
-  }
 
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     settingsMenu.style.display = "none";
-    background.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
-  
+    bgset.style.visibility = "hidden";
+
     document.body.style.backgroundColor = colInput.value
-  
+
     if (imgInput.files[0]) {
-      const file = imgInput.files[0];
-      const reader = new FileReader();
-      reader.onload = function () {
-        const imageUrl = reader.result;
-        document.body.style.backgroundImage = `url(${imageUrl})`;
-      };
-      reader.readAsDataURL(file);
+        const file = imgInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function () {
+            const imageUrl = reader.result;
+            document.body.style.backgroundImage = `url(${imageUrl})`;
+        };
+        reader.readAsDataURL(file);
     }
-  
+
     playSound()
-  })
+})
+
+form.addEventListener('reset', function (e) {
+    e.preventDefault();
+    settings()
+})
+
+chooseImg.addEventListener('click', function () {
+    imgInput.click();
+})
