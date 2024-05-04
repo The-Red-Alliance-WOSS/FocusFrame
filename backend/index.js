@@ -20,7 +20,8 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
+passport.deserializeUser(async (id, done) => {
+
   User.findById(id, (err, user) => {
     done(err, user);
   });
@@ -32,23 +33,25 @@ passport.use(new DiscordStrategy({
   clientSecret: process.env.DISCORD_CLIENT_SECRET,
   callbackURL: process.env.DISCORD_CALLBACK_URL,
   scopes: ['identity', 'email']
-}, (accessToken, refreshToken, profile, done) => {
-  User.findOne({ discordId: profile.id }, (err, user) => {
-    if (err) return done(err);
+}, async (accessToken, refreshToken, profile, done) => {
+  try {
+    const user = await User.findOne({ discordId: profile.id });
     if (!user) {
       const newUser = new User({
         discordId: profile.id,
         tasks: [], // Initialize tasks array for new user
       });
-      newUser.save((err) => {
-        if (err) console.error(err);
-        return done(null, newUser);
-      });
+      await newUser.save();
+      return done(null, newUser);
     } else {
       return done(null, user);
     }
-  });
+  } catch (err) {
+    console.error(err);
+    return done(err);
+  }
 }));
+
 
 // Express middlewares
 app.use(express.json());
