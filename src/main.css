@@ -46,17 +46,13 @@ header {
     padding: 2rem 2rem 2rem 2rem;
     position: absolute;
     width: 100%;
+    z-index: 9999;
 } header button {
     font-size: 1.5em;
     border-radius: 1000rem;
     border: 2px white solid;
     background-color: transparent;
     transition: background-color 0.25s, color 0.25s;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     margin: 0 0 0 1rem;
     width: 3rem;
@@ -65,9 +61,9 @@ header {
     background-color: white;
     transition: background-color 0.25s;
 } header button:hover {
-    background-color: white !important;
+    background-color: transparent;
     cursor: pointer;
-    color: black !important;
+    color: white;
 } header div{
     background-color:rgba(0, 0, 0, 0.2);
     border-radius: 1000rem;
@@ -122,10 +118,11 @@ main h2{
 #tasks {
     color: white;
     display: grid;
-    justify-items: center;
-    grid-template-areas: 
-    "t t t"
-    "t t t"
+    justify-items: start;
+    grid-template-areas:
+        "t t t"
+        "t t t";
+    justify-content: center;
 }
 
 #tasks div{
@@ -138,6 +135,33 @@ main h2{
     align-items: center;
 }
 
-#tasks div img {
+#tasks div input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    border: 2px solid white;
+    border-radius: 1000rem;
     margin-right: 0.5rem;
+    transition: background-color 0.25s;
+  }
+  
+#tasks div input[type="checkbox"]::before {
+    content: "";
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 1000rem;
+    transform: scale(0);
+    background-color: white;
+  }
+
+#tasks div input[type="checkbox"]:checked::before {
+    transform: scale(1);
+  }
+
+#tasks div input[type="checkbox"]:hover {
+  background-color: white;
 }
+
+  

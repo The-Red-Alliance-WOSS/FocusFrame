@@ -1,4 +1,11 @@
 const motiv = document.getElementById("motivation") as HTMLInputElement;
+const tasks = document.getElementById("tasks") as HTMLInputElement;
+const hideButton = document.getElementById("hideButton") as HTMLInputElement;
+const icon = hideButton.querySelector("i");
+
+tasks.style.display = "grid";
+
+let taskCount = 0;
 
 const motivs = [
     "You can do it!",
@@ -45,7 +52,44 @@ function dropdown(){
 }
 
 function add(){
-    const taskDiv = document.createElement("div");
-    taskDiv.textContent = "New Task";
-    document.getElementById("tasks").appendChild(taskDiv);
+    if(taskCount < 6){
+        taskCount++
+        const taskDiv = document.createElement("div");
+        
+        const taskText = document.createElement("h3");
+        taskText.textContent = "New Task";
+        taskText.contentEditable = "true"; // Make h3 element directly editable
+        taskText.style.maxWidth = "calc(100% - 30px)"; // Adjust the max-width
+        
+        taskText.addEventListener('input', () => {
+            const width = taskDiv.clientWidth;
+            const textWidth = taskText.clientWidth;
+            if (textWidth > width) {
+                const truncatedText = taskText.innerHTML.slice(0, -1);
+                taskText.textContent = truncatedText;
+            }
+        });
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        
+        taskDiv.appendChild(checkbox);
+        taskDiv.appendChild(taskText);
+        
+        tasks.appendChild(taskDiv);
+    }
+}
+
+
+function hide(){
+    if (icon) {
+        icon.classList.toggle("fa-eye-slash");
+        icon.classList.toggle("fa-eye");
+    }
+
+    if(tasks.style.display == "grid"){
+        tasks.style.display = "none";
+    } else if(tasks.style.display == "none") {
+        tasks.style.display = "grid";
+    }
 }
