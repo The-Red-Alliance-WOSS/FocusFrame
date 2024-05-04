@@ -1,22 +1,50 @@
-const addTask = async (taskName) => {
-    // Update the URL to point to your backend server
-    const url = `http://localhost:5501/tasks/add?task_name=${encodeURIComponent(taskName)}`;
+const getTasks = async () => {
+    const url  = `http://localhost:5501/profile`;
 
     try {
         const response = await fetch(url, {
             method: 'GET',
+            headers: {
+                'Cookie': "connect.sid=s%3AaJQtH4K4DYm8fBF-PMTtPM97roa4kRsH.9VOvVXpPQfYJX0JGe%2BEi1lAhoMlPhAx6OJKIcxEo6wM"
+            }
         });
 
         if (!response.ok) {
-            throw new Error('Failed to add task');
+            throw new Error('Failed to get tasks');
         }
 
         const data = await response.json();
-        console.log('Task added successfully:', data);
+        const tasks = data.tasks;
+
+        return tasks;
+
     } catch (error) {
-        console.error('Error adding task:', error.message);
+        console.error('Error getting tasks:', error.message);
+        throw error;
     }
-};
+
+}
+
+// const addTask = async (taskName) => {
+//     const url = `http://localhost:5501/tasks/add?task_name=${encodeURIComponent(taskName)}`;
+
+//     try {
+//         const response = await fetch(url, {
+//             method: 'GET',
+//         });
+
+//         if (!response.ok) {
+//             throw new Error('Failed to add task');
+//         }
+
+//         const data = await response.json();
+//         console.log('Task added successfully:', data);
+//         return data;
+//     } catch (error) {
+//         console.error('Error adding task:', error.message);
+//         throw error;
+//     }
+// };
 
 const modifyTask = async (taskId, taskProgress, taskName = null) => {
     try {
@@ -38,6 +66,7 @@ const modifyTask = async (taskId, taskProgress, taskName = null) => {
         }
 
         const data = await response.json();
+        return data;
         console.log('Task modified successfully:', data);
     } catch (error) {
         console.error('Error modifying task:', error.message);

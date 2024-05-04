@@ -92,10 +92,28 @@ function dropdown() {
     }
 }
 
+// async function getDatabaseTasks() {
+//     const url = `http://localhost:5501/profile`;
+
+//     const response = await fetch(url, {
+//         method: 'GET',
+        
+//     });
+
+//     if (!response.ok) {
+//         throw new Error('Failed to get tasks');
+//     }
+
+//     const data = await response.json();
+//     const tasks = data.tasks;
+
+
+// }
+
 function add() {
+    if
     playSound();
     if (taskCount < 6) {
-
         taskCount++;
         const taskDiv = document.createElement("div");
         taskDiv.id = `task${taskCount}`;
@@ -119,7 +137,9 @@ function add() {
         });
 
         taskText.addEventListener('keydown', (event) => {
-            if (event.key === "Enter" || (event.key === "Enter" && event.ctrlKey)) {
+            if (event.key === "Enter") {
+                // addTask(taskText.innerText)
+                window.open(`http://localhost:5501/tasks/add?task_name=${taskText.innerText}&close=true`)
                 event.preventDefault();
             }
         });
@@ -155,11 +175,9 @@ function hide() {
     if (tasks.style.display === "grid") {
         tasks.style.display = "none";
         percent.style.display = "none";
-        addButton.style.display = "none";
     } else if (tasks.style.display === "none") {
         tasks.style.display = "grid";
         percent.style.display = "block";
-        addButton.style.display = "inline-block";
     }
 }
 

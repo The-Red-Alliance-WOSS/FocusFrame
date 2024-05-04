@@ -24,7 +24,7 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(async (id, done) => {
+passport.deserializeUser((id, done) => {
   User.findById(id, (err, user) => {
     done(err, user);
   });
@@ -55,12 +55,19 @@ passport.use(new DiscordStrategy({
   }
 }));
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 // Express middlewares
 app.use(express.json());
 app.use(session({
   secret: 'i<3eurekahacks2024',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: false, // Set saveUninitialized to true to save uninitialized sessions
 }));
 
 app.use(passport.initialize());
@@ -73,7 +80,7 @@ app.get('/', (req, res) => {
 
 app.get('/auth/discord', passport.authenticate('discord'));
 app.get('/auth/discord/callback', passport.authenticate('discord', {
-  successRedirect: '/',
+  successRedirect: 'http://localhost:5500/',
   failureRedirect: '/login',
 }));
 
@@ -94,7 +101,7 @@ app.get('/profile', (req, res) => {
 // Route to add a task for a user
 app.get('/tasks/add', (req, res) => {
   if (req.isAuthenticated()) {
-    const { task_name } = req.query; // Extract task_name from query parameters
+    const { task_name, close } = req.query; // Extract task_name and close from query parameters
     const userId = req.user._id; // Assuming user ID is stored in the session
 
     User.findById(userId, (err, user) => {
@@ -115,13 +122,27 @@ app.get('/tasks/add', (req, res) => {
           console.error(err);
           return res.status(500).json({ message: 'Internal Server Error' });
         }
-        res.json(updatedUser);
+
+        // If close parameter is provided, send response immediately
+        if (close === 'true') {
+          const responseHtml = `
+            <script>
+              window.close(); // Close the current tab
+            </script>`;
+          return res.json(updatedUser);
+        }
       });
+
+      // If close parameter is not provided, wait for the save operation to complete
+      if (close !== 'true') {
+        res.json({ message: 'Task added successfully' });
+      }
     });
   } else {
     res.status(401).json({ message: 'Unauthorized' });
   }
 });
+
 
 // Route to modify a task for a user
 app.put('/tasks/:taskId', (req, res) => {
