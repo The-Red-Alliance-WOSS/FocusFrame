@@ -31,6 +31,7 @@ passport.use(new DiscordStrategy({
   clientID: process.env.DISCORD_CLIENT_ID,
   clientSecret: process.env.DISCORD_CLIENT_SECRET,
   callbackURL: process.env.DISCORD_CALLBACK_URL,
+  scopes: ['identity', 'email']
 }, (accessToken, refreshToken, profile, done) => {
   User.findOne({ discordId: profile.id }, (err, user) => {
     if (err) return done(err);
@@ -65,7 +66,7 @@ app.get('/', (req, res) => {
   res.send('Home Page');
 });
 
-app.get('/auth/discord', passport.authenticate('discord'));
+app.get('/auth/discord', passport.authenticate('discord', { scope: ['identify', 'email'] }));
 app.get('/auth/discord/callback', passport.authenticate('discord', {
   successRedirect: '/',
   failureRedirect: '/login',
