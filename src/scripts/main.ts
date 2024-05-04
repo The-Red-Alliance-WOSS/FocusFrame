@@ -7,6 +7,12 @@ const dropd = document.getElementById("dropd") as HTMLInputElement;
 const dropdownButton = document.getElementById("dropdown") as HTMLInputElement;
 const background = document.getElementById("bg") as HTMLInputElement;
 const settingsMenu = document.getElementById("settingsmenu") as HTMLInputElement;
+const form = document.getElementById("form") as HTMLInputElement;
+const colInput: any = document.getElementById("colinput") as HTMLInputElement;
+const imgInput: any = document.getElementById("imginput") as HTMLInputElement;
+const chooseImg: any = document.getElementById("chooseImg") as HTMLInputElement;
+const general = document.getElementById("general") as HTMLInputElement;
+const customization = document.getElementById("customizations") as HTMLInputElement
 
 const icon = hideButton.querySelector("i");
 
@@ -170,3 +176,34 @@ function settings() {
       background.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
     }
 }
+
+function switchMenu(val: number) {
+    playSound()
+    if (val == 2) {
+      general.style.display = "none";
+      customization.style.display = "flex";
+    } else if (val == 1) {
+      general.style.display = "flex";
+      customization.style.display = "none";
+    }
+  }
+
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    settingsMenu.style.display = "none";
+    background.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+  
+    document.body.style.backgroundColor = colInput.value
+  
+    if (imgInput.files[0]) {
+      const file = imgInput.files[0];
+      const reader = new FileReader();
+      reader.onload = function () {
+        const imageUrl = reader.result;
+        document.body.style.backgroundImage = `url(${imageUrl})`;
+      };
+      reader.readAsDataURL(file);
+    }
+  
+    playSound()
+  })

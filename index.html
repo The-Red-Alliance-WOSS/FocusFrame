@@ -32,32 +32,35 @@
             <button onclick="settings()"><i class="fa-solid fa-gear"></i></button>
         </div>
     </header>
-    <div id="settingsmenu">
-        <form id="form">
-            <div class="side">
-                <button type="button" onclick="switchMenu(1)">General</button>
-                <button type="button" onclick="switchMenu(2)">Customization</button>
-            </div>
-            <div id="customizations">
-                <div id="backgroundcustom">
-                    <div>
-                        <h3>Background Color</h3>
-                        <input title="Background Color" type="color" id="colinput">
-                    </div>
-                    <div>
-                        <h3>Background Image</h3>
-                        <input title="Background Image" type="file" id="imginput" accept="image/png, image/jpeg">
-                        <button title="Choose Background Image" id="chooseImg" type="button">Upload Image</button>
+    <main>
+        <div id="settingsmenu">
+            <form id="form">
+                <div class="side">
+                    <button type="button" onclick="switchMenu(1)">General</button>
+                    <button type="button" onclick="switchMenu(2)">Customization</button>
+                </div>
+                <div id="customizations">
+                    <div id="backgroundcustom">
+                        <div>
+                            <h3>Background Color</h3>
+                            <input title="Background Color" type="color" id="colinput">
+                        </div>
+                        <div>
+                            <h3>Background Image</h3>
+                            <input title="Background Image" type="file" id="imginput" accept="image/png, image/jpeg">
+                            <button title="Choose Background Image" id="chooseImg" type="button">Upload Image</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="menuButtons">
-                <button title="Cancel" type="reset">Cancel</button>
-                <button title="Save Changes" type="submit">Save</button>
-            </div>
-        </form>
-    </div>
-    <main>
+                <div id="general">
+            
+                </div>
+                <div id="menuButtons">
+                    <button title="Cancel" type="reset">Cancel</button>
+                    <button title="Save Changes" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
         <div id="center">
             <h1 id="percent">No Tasks!</h1>
             <h2 id="motivation" contenteditable="True"></h2>
