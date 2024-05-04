@@ -7,6 +7,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 
 html {
@@ -67,6 +68,8 @@ header {
 } header div{
     background-color:rgba(0, 0, 0, 0.2);
     border-radius: 1000rem;
+} header i {
+    margin-top: 0.35rem;
 }
 
 main {
@@ -95,6 +98,7 @@ main h1 {
 
 main h2{
     font-size: 2.5em;
+    font-family: 'Rubik', sans-serif;
     color: white;
     cursor: default;
     -webkit-touch-callout: none;
@@ -104,6 +108,8 @@ main h2{
     -ms-user-select: none;
     user-select: none;
     transition: color 0.25s;
+    width: 100%;
+    text-align: center;
 }
 
 #center {
@@ -113,6 +119,7 @@ main h2{
     padding: 2rem;
     border-radius: 0.5rem;
     margin-bottom: 2rem;
+    width: 50rem;
 }
 
 #tasks {
@@ -152,16 +159,14 @@ main h2{
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 1000rem;
-    transform: scale(0);
-    background-color: white;
   }
 
 #tasks div input[type="checkbox"]:checked::before {
-    transform: scale(1);
+    background-color: white;
   }
 
 #tasks div input[type="checkbox"]:hover {
-  background-color: white;
+  cursor: pointer;
 }
 
   

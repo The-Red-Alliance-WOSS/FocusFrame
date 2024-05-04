@@ -27,15 +27,15 @@
     <header>
         <button onclick="dropdown()"><i class="fa-solid fa-chevron-right"></i></button>
         <div>
-            <button title="Add Task" type="button" onclick="add()"><i class="fa-solid fa-plus"></i></button>
+            <button title="Add Task" type="button" onclick="add()" id="addButton"><i class="fa-solid fa-plus"></i></button>
             <button title="Hide Tasks" type="button" onclick="hide()" id="hideButton"><i class="fa-solid fa-eye-slash"></i></button>
             <button onclick="dropdown()"><i class="fa-solid fa-gear"></i></button>
         </div>
     </header>
     <main>
         <div id="center">
-            <h1>0%</h1>
-            <h2 id="motivation"></h2>
+            <h1 id="percent">No Tasks!</h1>
+            <h2 id="motivation" contenteditable="True"></h2>
         </div>
         <div id="tasks">
         </div>
