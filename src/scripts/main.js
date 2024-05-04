@@ -86,9 +86,12 @@ function add() {
     playSound();
     if (taskCount < 6) {
         taskCount++;
+        if (document.getElementById(`task_${taskCount - 1}`).innerHTML == "") {
+        }
         const taskDiv = document.createElement("div");
+        taskDiv.id = `task_${taskCount}`;
         const taskText = document.createElement("h3");
-        taskText.textContent = "New Task";
+        taskText.textContent = "";
         taskText.contentEditable = "true";
         taskText.style.maxWidth = "calc(100% - 30px)";
         taskText.addEventListener('input', () => {
@@ -117,6 +120,9 @@ function add() {
         taskDiv.appendChild(checkbox);
         taskDiv.appendChild(taskText);
         tasks.appendChild(taskDiv);
+        setTimeout(() => {
+            taskText.focus();
+        });
         update();
     }
 }

@@ -96,10 +96,14 @@ function add() {
     playSound();
     if (taskCount < 6) {
         taskCount++;
+        if(document.getElementById(`task_${taskCount-1}`).innerHTML == ""){
+            
+        }
         const taskDiv = document.createElement("div");
+        taskDiv.id = `task_${taskCount}`;
 
         const taskText = document.createElement("h3");
-        taskText.textContent = "New Task";
+        taskText.textContent = "";
         taskText.contentEditable = "true";
         taskText.style.maxWidth = "calc(100% - 30px)";
 
@@ -120,7 +124,7 @@ function add() {
             if (event.key === "Enter" || (event.key === "Enter" && event.ctrlKey)) {
                 event.preventDefault();
             }
-        })
+        });
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -134,9 +138,14 @@ function add() {
 
         tasks.appendChild(taskDiv);
 
+        setTimeout(() => {
+            taskText.focus();
+        });
+
         update();
     }
 }
+
 
 function hide() {
     playSound();
