@@ -46,7 +46,7 @@ const modifyTask = async (taskId, taskProgress, taskName = null) => {
 
 const deleteTask = async (taskId) => {
     try {
-        const url = `http://your-backend-server.com/tasks/${taskId}`;
+        const url = `http://localhost:5501/tasks/${taskId}`;
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
