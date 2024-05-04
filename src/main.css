@@ -1,0 +1,140 @@
+*,
+*:after,
+*:before {
+    outline: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    position: relative;
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    position: relative;
+    font-family: 'Rubik', sans-serif;
+    background-color: rgb(25, 25, 25);
+    background-image: url("");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: background-color 1s, background-image 1s;
+}
+
+#bg {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: background-color 0.25s;
+}
+
+.menuElementBottomMargin {
+    margin-bottom: 2rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 2rem 2rem 2rem 2rem;
+    position: absolute;
+    width: 100%;
+} header button {
+    font-size: 1.5em;
+    border-radius: 1000rem;
+    border: 2px white solid;
+    background-color: transparent;
+    transition: background-color 0.25s, color 0.25s;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0 1rem 0 1rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0;
+    background-color: white;
+    transition: background-color 0.25s;
+} header button:hover {
+    background-color: white !important;
+    cursor: pointer;
+    color: black !important;
+}
+
+main {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 9000;
+}
+
+main h1 {
+    font-size: 10em;
+    color: white;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: color 0.25s;
+}
+
+main h2{
+    font-size: 3em;
+    color: white;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: color 0.25s;
+}
+
+#center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    margin-bottom: 3rem;
+}
+
+#tasks {
+    color: white;
+    display: grid;
+    justify-items: center;
+    grid-template-areas: 
+    "t t t"
+    "t t t"
+}
+
+#tasks div{
+    margin: 1rem;
+    padding: 2rem;
+    width: 20rem;
+    border-radius: 0.5rem;
+    background-color:rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+}
+
+#tasks div img {
+    margin-right: 0.5rem;
+}

@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "target": "EsNext",
+        "module": "ESNext",
+        "lib": [
+            "dom", 
+            "esnext",
+        ],
+        "allowJs": true,
+        "moduleResolution": "node",
+    }
+}
