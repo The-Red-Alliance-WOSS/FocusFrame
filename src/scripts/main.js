@@ -8,6 +8,12 @@ const dropd = document.getElementById("dropd");
 const dropdownButton = document.getElementById("dropdown");
 const background = document.getElementById("bg");
 const settingsMenu = document.getElementById("settingsmenu");
+const form = document.getElementById("form");
+const colInput = document.getElementById("colinput");
+const imgInput = document.getElementById("imginput");
+const chooseImg = document.getElementById("chooseImg");
+const general = document.getElementById("general");
+const customization = document.getElementById("customizations");
 const icon = hideButton.querySelector("i");
 const pressSound = new Audio('https://github.com/maykbrito/automatic-video-creator/blob/master/audios/button-press.wav?raw=true');
 pressSound.volume = 0.5;
@@ -151,3 +157,30 @@ function settings() {
         background.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
     }
 }
+function switchMenu(val) {
+    playSound();
+    if (val == 2) {
+        general.style.display = "none";
+        customization.style.display = "flex";
+    }
+    else if (val == 1) {
+        general.style.display = "flex";
+        customization.style.display = "none";
+    }
+}
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    settingsMenu.style.display = "none";
+    background.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+    document.body.style.backgroundColor = colInput.value;
+    if (imgInput.files[0]) {
+        const file = imgInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function () {
+            const imageUrl = reader.result;
+            document.body.style.backgroundImage = `url(${imageUrl})`;
+        };
+        reader.readAsDataURL(file);
+    }
+    playSound();
+});
