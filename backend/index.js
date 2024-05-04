@@ -37,9 +37,6 @@ passport.use(new DiscordStrategy({
     if (!user) {
       const newUser = new User({
         discordId: profile.id,
-        username: profile.username,
-        discriminator: profile.discriminator,
-        avatar: profile.avatar,
         tasks: [], // Initialize tasks array for new user
       });
       newUser.save((err) => {
@@ -55,7 +52,7 @@ passport.use(new DiscordStrategy({
 // Express middlewares
 app.use(express.json());
 app.use(session({
-  secret: 'your_secret_key',
+  secret: 'i<3eurekahacks2024',
   resave: false,
   saveUninitialized: false,
 }));
