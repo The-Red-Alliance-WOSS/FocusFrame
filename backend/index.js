@@ -105,7 +105,7 @@ app.get('/tasks/add', (req, res) => {
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-      
+
       // Add task to user's tasks array
       user.tasks.push({ task_name, task_progress: false });
 
@@ -123,6 +123,84 @@ app.get('/tasks/add', (req, res) => {
   }
 });
 
+// Route to modify a task for a user
+app.put('/tasks/:taskId', (req, res) => {
+  if (req.isAuthenticated()) {
+    const { taskId } = req.params; // Extract taskId from URL parameters
+    const { task_progress } = req.body; // Extract task_progress from request body
+    const userId = req.user._id; // Assuming user ID is stored in the session
+
+    User.findById(userId, (err, user) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Find the task by its ID
+      const task = user.tasks.find(task => task._id === taskId);
+      if (!task) {
+        return res.status(404).json({ message: 'Task not found' });
+      }
+
+      // Update task_progress if provided
+      if (task_progress !== undefined) {
+        task.task_progress = task_progress;
+      }
+
+      // Save user document
+      user.save((err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Internal Server Error' });
+        }
+        res.json(updatedUser);
+      });
+    });
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+});
+
+// Route to delete a task for a user
+app.delete('/tasks/:taskId', (req, res) => {
+  if (req.isAuthenticated()) {
+    const { taskId } = req.params; // Extract taskId from URL parameters
+    const userId = req.user._id; // Assuming user ID is stored in the session
+
+    User.findById(userId, (err, user) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Find the index of the task in the tasks array
+      const taskIndex = user.tasks.findIndex(task => task._id === taskId);
+      if (taskIndex === -1) {
+        return res.status(404).json({ message: 'Task not found' });
+      }
+
+      // Remove the task from the tasks array
+      user.tasks.splice(taskIndex, 1);
+
+      // Save user document
+      user.save((err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Internal Server Error' });
+        }
+        res.json(updatedUser);
+      });
+    });
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+});
 
 // Start server
 app.listen(port, () => {
