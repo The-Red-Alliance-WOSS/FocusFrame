@@ -18,12 +18,19 @@ const addTask = async (taskName) => {
     }
 };
 
-const modifyTask = async (taskId, taskProgress) => {
+const modifyTask = async (taskId, taskProgress, taskName = null) => {
     try {
         const url = `http://localhost:5501/tasks/${taskId}`;
+        const bodyData = { task_progress: taskProgress };
+
+        // Include task name in the request body if provided
+        if (taskName !== null) {
+            bodyData.task_name = taskName;
+        }
+
         const response = await fetch(url, {
             method: 'PUT',
-            body: JSON.stringify({ task_progress: taskProgress })
+            body: JSON.stringify(bodyData)
         });
 
         if (!response.ok) {
@@ -36,7 +43,6 @@ const modifyTask = async (taskId, taskProgress) => {
         console.error('Error modifying task:', error.message);
     }
 };
-
 
 const deleteTask = async (taskId) => {
     try {
