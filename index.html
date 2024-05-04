@@ -25,39 +25,19 @@
 <body>
     <div id="bg"></div>
     <header>
-        <button><i class="fa-solid fa-eye-slash fa-lg"></i></button>
-        <button><i class="fa-solid fa-gear fa-xl"></i></button>
+        <button onclick="dropdown()"><i class="fa-solid fa-chevron-right"></i></button>
+        <div>
+            <button onclick="add()"><i class="fa-solid fa-plus"></i></button>
+            <button onclick="dropdown()"><i class="fa-solid fa-eye-slash"></i></button>
+            <button onclick="dropdown()"><i class="fa-solid fa-gear"></i></button>
+        </div>
     </header>
     <main>
         <div id="center">
             <h1>0%</h1>
-            <h2>You can do it!</h2>
+            <h2 id="motivation"></h2>
         </div>
         <div id="tasks">
-            <div>
-                <img src="640px-Circle_-_black_simple.svg.png" width="25">
-                <h3>Task</h3>
-            </div>
-            <div>
-                <img src="640px-Circle_-_black_simple.svg.png" width="25">
-                <h3>Task</h3>
-            </div>
-            <div>
-                <img src="640px-Circle_-_black_simple.svg.png" width="25">
-                <h3>Task</h3>
-            </div>
-            <div>
-                <img src="640px-Circle_-_black_simple.svg.png" width="25">
-                <h3>Task</h3>
-            </div>
-            <div>
-                <img src="640px-Circle_-_black_simple.svg.png" width="25">
-                <h3>Task</h3>
-            </div>
-            <div>
-                <img src="640px-Circle_-_black_simple.svg.png" width="25">
-                <h3>Task</h3>
-            </div>
         </div>
     </main>
     <script src="./src/scripts/main.js"></script>
