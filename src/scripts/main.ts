@@ -1,12 +1,23 @@
 const motiv = document.getElementById("motivation") as HTMLInputElement;
 const tasks = document.getElementById("tasks") as HTMLInputElement;
 const hideButton = document.getElementById("hideButton") as HTMLInputElement;
-const icon = hideButton.querySelector("i");
 const percent = document.getElementById("percent") as HTMLInputElement;
 const addButton = document.getElementById("addButton") as HTMLInputElement;
+const dropd = document.getElementById("dropd") as HTMLInputElement;
+const dropdownButton = document.getElementById("dropdown") as HTMLInputElement;
+const background = document.getElementById("bg") as HTMLInputElement;
+const settingsMenu = document.getElementById("settingsmenu") as HTMLInputElement;
+
+const icon = hideButton.querySelector("i");
 
 const pressSound = new Audio('https://github.com/maykbrito/automatic-video-creator/blob/master/audios/button-press.wav?raw=true');
 pressSound.volume = 0.5;
+
+tasks.style.display = "grid";
+dropd.style.display = "none"
+settingsMenu.style.display = "none";
+
+let taskCount = 0;
 
 document.addEventListener("paste", (event) => {
     event.preventDefault();
@@ -22,11 +33,6 @@ function playSound() {
     pressSound.currentTime = 0;
     pressSound.play();
 }
-
-tasks.style.display = "grid";
-percent.innerText = "0%";
-
-let taskCount = 0;
 
 const motivs = [
     "You can do it!",
@@ -69,6 +75,13 @@ setRandomBackgroundColor();
 
 function dropdown() {
     playSound();
+    if(dropd.style.display == "none"){
+        dropd.style.display = "flex";
+        dropdownButton.style.borderRadius = "1000rem 0 0 1000rem"
+    } else if(dropd.style.display == "flex"){
+        dropd.style.display = "none"
+        dropdownButton.style.borderRadius = "1000rem"
+    }
 }
 
 function add() {
@@ -146,3 +159,14 @@ motiv.addEventListener("keydown", (event) => {
         event.preventDefault();
     }
 });
+
+function settings() {
+    playSound()
+    if (settingsMenu.style.display == "none") {
+        settingsMenu.style.display = "block";
+      background.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+    } else if (settingsMenu.style.display == "block") {
+        settingsMenu.style.display = "none";
+      background.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+    }
+}
