@@ -6,7 +6,6 @@ const percent = document.getElementById("percent");
 const addButton = document.getElementById("addButton");
 const dropd = document.getElementById("dropd");
 const dropdownButton = document.getElementById("dropdown");
-const background = document.getElementById("bg");
 const bgset = document.getElementById("bgset");
 const settingsMenu = document.getElementById("settingsmenu");
 const form = document.getElementById("form");
@@ -71,6 +70,7 @@ function setRandomBackgroundColor() {
     colInput.value = color;
 }
 setRandomBackgroundColor();
+
 function dropdown() {
     playSound();
     if (dropd.style.display == "none") {
@@ -82,18 +82,7 @@ function dropdown() {
         dropdownButton.style.borderRadius = "1000rem";
     }
 }
-// async function getDatabaseTasks() {
-//     const url = `http://localhost:5501/profile`;
-//     const response = await fetch(url, {
-//         method: 'GET',
-//     });
-//     if (!response.ok) {
-//         throw new Error('Failed to get tasks');
-//     }
-//     const data = await response.json();
-//     const tasks = data.tasks;
-// }
-function add() {
+function add(text) {
     playSound();
     if (tasks.style.display == "none") {
         return;
@@ -103,7 +92,7 @@ function add() {
         const taskDiv = document.createElement("div");
         taskDiv.id = `task${taskCount}`;
         const taskText = document.createElement("h3");
-        taskText.textContent = "";
+        taskText.textContent = text;
         taskText.contentEditable = "true";
         taskText.style.maxWidth = "calc(100% - 30px)";
         taskText.addEventListener('input', () => {
@@ -120,8 +109,8 @@ function add() {
         });
         taskText.addEventListener('keydown', (event) => {
             if (event.key === "Enter") {
-                // addTask(taskText.innerText)
-                window.open(`http://localhost:5501/tasks/add?task_name=${taskText.innerText}&close=true`);
+                update()
+                // window.open(`http://localhost:5501/tasks/add?task_name=${taskText.innerText}&close=true`);
                 event.preventDefault();
             }
         });
@@ -149,21 +138,13 @@ function hide() {
     if (tasks.style.display === "grid") {
         tasks.style.display = "none";
         percent.style.display = "none";
-        addButton.style.cursor = "not-allowed";
     }
     else if (tasks.style.display === "none") {
         tasks.style.display = "grid";
         percent.style.display = "block";
-        addButton.style.cursor = "pointer";
     }
 }
-function update() {
-    const checkboxes = Array.from(tasks.querySelectorAll("input[type='checkbox']"));
-    const checkedCount = checkboxes.filter(checkbox => checkbox.checked).length;
-    const percentage = (checkedCount / taskCount) * 100;
-    const completionText = isNaN(percentage) ? "0%" : percentage.toFixed(0) + "%";
-    percent.innerText = completionText;
-}
+
 motiv.addEventListener("keydown", (event) => {
     const maxChars = 50;
     if (motiv.innerText.length >= maxChars && event.key !== "Backspace" && !event.ctrlKey) {
@@ -178,6 +159,7 @@ function settings() {
     if (bgset.style.visibility == "hidden") {
         settingsMenu.style.display = "grid";
         bgset.style.visibility = "visible";
+        addButton.style.cursor = "notAllowed";
     }
     else if (bgset.style.visibility = "visible") {
         settingsMenu.style.display = "none";
@@ -207,3 +189,38 @@ form.addEventListener('reset', function (e) {
 chooseImg.addEventListener('click', function () {
     imgInput.click();
 });
+// Function to save tasks to local storage
+function saveTasksToLocalStorage() {
+    const tasksData = Array.from(tasks.querySelectorAll("h3")).map(task => task.textContent);
+    localStorage.setItem('tasks', JSON.stringify(tasksData));
+}
+// Function to retrieve tasks from local storage and render them
+function renderTasksFromLocalStorage() {
+    const tasksData = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasksData.forEach((taskText) => {
+        add(taskText);
+    });
+}
+// Call renderTasksFromLocalStorage on page load
+window.addEventListener('load', renderTasksFromLocalStorage);
+// Call saveTasksToLocalStorage whenever tasks are updated
+function update() {
+    const checkboxes = Array.from(tasks.querySelectorAll("input[type='checkbox']"));
+    const checkedCount = checkboxes.filter(checkbox => checkbox.checked).length;
+    const percentage = (checkedCount / taskCount) * 100;
+    const completionText = isNaN(percentage) ? "0%" : percentage.toFixed(0) + "%";
+    percent.innerText = completionText;
+    // Save tasks to local storage
+    saveTasksToLocalStorage();
+}
+// Function to delete a task
+function deleteTask(taskId) {
+    const taskToDelete = document.getElementById(taskId);
+    if (taskToDelete) {
+        taskToDelete.remove();
+        taskCount--;
+        // Update tasks count and save to local storage
+        update();
+        saveTasksToLocalStorage();
+    }
+}

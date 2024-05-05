@@ -5,14 +5,13 @@ const percent = document.getElementById("percent") as HTMLInputElement;
 const addButton = document.getElementById("addButton") as HTMLInputElement;
 const dropd = document.getElementById("dropd") as HTMLInputElement;
 const dropdownButton = document.getElementById("dropdown") as HTMLInputElement;
-const background = document.getElementById("bg") as HTMLInputElement;
 const bgset = document.getElementById("bgset") as HTMLInputElement;
 const settingsMenu = document.getElementById("settingsmenu") as HTMLInputElement;
 const form = document.getElementById("form") as HTMLInputElement;
 const colInput: any = document.getElementById("colinput") as HTMLInputElement;
 const imgInput: any = document.getElementById("imginput") as HTMLInputElement;
 const chooseImg: any = document.getElementById("chooseImg") as HTMLInputElement;
-const customization = document.getElementById("customizations") as HTMLInputElement
+const customization = document.getElementById("customizations") as HTMLInputElement;
 
 const icon = hideButton.querySelector("i");
 
@@ -20,7 +19,7 @@ const pressSound = new Audio('https://github.com/maykbrito/automatic-video-creat
 pressSound.volume = 0.5;
 
 tasks.style.display = "grid";
-dropd.style.display = "none"
+dropd.style.display = "none";
 settingsMenu.style.display = "none";
 bgset.style.visibility = "hidden";
 
@@ -92,25 +91,7 @@ function dropdown() {
     }
 }
 
-// async function getDatabaseTasks() {
-//     const url = `http://localhost:5501/profile`;
-
-//     const response = await fetch(url, {
-//         method: 'GET',
-
-//     });
-
-//     if (!response.ok) {
-//         throw new Error('Failed to get tasks');
-//     }
-
-//     const data = await response.json();
-//     const tasks = data.tasks;
-
-
-// }
-
-function add() {
+function add(text: string) {
     playSound();
     if (tasks.style.display == "none") {
         return;
@@ -121,7 +102,7 @@ function add() {
         taskDiv.id = `task${taskCount}`;
 
         const taskText = document.createElement("h3");
-        taskText.textContent = "";
+        taskText.textContent = text;
         taskText.contentEditable = "true";
         taskText.style.maxWidth = "calc(100% - 30px)";
 
@@ -140,7 +121,6 @@ function add() {
 
         taskText.addEventListener('keydown', (event) => {
             if (event.key === "Enter") {
-                // addTask(taskText.innerText)
                 window.open(`http://localhost:5501/tasks/add?task_name=${taskText.innerText}&close=true`)
                 event.preventDefault();
             }
@@ -149,7 +129,7 @@ function add() {
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.addEventListener("change", () => {
-            update();
+            updateNOW();
             playSound();
         });
 
@@ -162,10 +142,9 @@ function add() {
             taskText.focus();
         });
 
-        update();
+        updateNOW();
     }
 }
-
 
 function hide() {
     playSound();
@@ -177,15 +156,13 @@ function hide() {
     if (tasks.style.display === "grid") {
         tasks.style.display = "none";
         percent.style.display = "none";
-        addButton.style.cursor = "not-allowed";
     } else if (tasks.style.display === "none") {
         tasks.style.display = "grid";
         percent.style.display = "block";
-        addButton.style.cursor = "pointer";
     }
 }
 
-function update() {
+function updateNOW() {
     const checkboxes = Array.from(tasks.querySelectorAll("input[type='checkbox']")) as HTMLInputElement[];
     const checkedCount = checkboxes.filter(checkbox => checkbox.checked).length;
     const percentage = (checkedCount / taskCount) * 100;
@@ -208,6 +185,7 @@ function settings() {
     if (bgset.style.visibility == "hidden") {
         settingsMenu.style.display = "grid";
         bgset.style.visibility = "visible";
+        addButton.style.cursor = "notAllowed"
     } else if (bgset.style.visibility = "visible") {
         settingsMenu.style.display = "none";
         bgset.style.visibility = "hidden";
@@ -232,13 +210,55 @@ form.addEventListener('submit', function (e) {
     }
 
     playSound()
-})
+});
 
 form.addEventListener('reset', function (e) {
     e.preventDefault();
     settings()
-})
+});
 
 chooseImg.addEventListener('click', function () {
     imgInput.click();
-})
+});
+
+// Function to save tasks to local storage
+function saveTasksToLocalStorage() {
+    const tasksData = Array.from(tasks.querySelectorAll("h3")).map(task => task.textContent);
+    localStorage.setItem('tasks', JSON.stringify(tasksData));
+}
+
+// Function to retrieve tasks from local storage and render them
+function renderTasksFromLocalStorage() {
+    const tasksData = JSON.parse(localStorage.getItem('tasks') as string) || [];
+    tasksData.forEach((taskText: string) => {
+        add(taskText)
+    });
+}
+
+// Call renderTasksFromLocalStorage on page load
+window.addEventListener('load', renderTasksFromLocalStorage);
+
+// Call saveTasksToLocalStorage whenever tasks are updated
+function update() {
+    const checkboxes = Array.from(tasks.querySelectorAll("input[type='checkbox']")) as HTMLInputElement[];
+    const checkedCount = checkboxes.filter(checkbox => checkbox.checked).length;
+    const percentage = (checkedCount / taskCount) * 100;
+    const completionText = isNaN(percentage) ? "0%" : percentage.toFixed(0) + "%";
+    percent.innerText = completionText;
+
+    // Save tasks to local storage
+    saveTasksToLocalStorage();
+}
+
+// Function to delete a task
+function deleteTask(taskId: string) {
+    const taskToDelete = document.getElementById(taskId);
+    if (taskToDelete) {
+        taskToDelete.remove();
+        taskCount--;
+
+        // Update tasks count and save to local storage
+        update();
+        saveTasksToLocalStorage();
+    }
+}

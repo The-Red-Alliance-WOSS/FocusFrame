@@ -73,23 +73,23 @@ const modifyTask = async (taskId, taskProgress, taskName = null) => {
     }
 };
 
-const deleteTask = async (taskId) => {
-    try {
-        const url = `http://localhost:5501/tasks/${taskId}`;
-        const response = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': 'Bearer YOUR_AUTH_TOKEN' // If authentication is required
-            }
-        });
+// const deleteTask = async (taskId) => {
+//     try {
+//         const url = `http://localhost:5501/tasks/${taskId}`;
+//         const response = await fetch(url, {
+//             method: 'DELETE',
+//             headers: {
+//                 'Authorization': 'Bearer YOUR_AUTH_TOKEN' // If authentication is required
+//             }
+//         });
 
-        if (!response.ok) {
-            throw new Error('Failed to delete task');
-        }
+//         if (!response.ok) {
+//             throw new Error('Failed to delete task');
+//         }
 
-        const data = await response.json();
-        console.log('Task deleted successfully:', data);
-    } catch (error) {
-        console.error('Error deleting task:', error.message);
-    }
-};
+//         const data = await response.json();
+//         console.log('Task deleted successfully:', data);
+//     } catch (error) {
+//         console.error('Error deleting task:', error.message);
+//     }
+// };
