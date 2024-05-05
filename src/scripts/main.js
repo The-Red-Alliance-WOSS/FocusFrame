@@ -182,19 +182,21 @@ form.addEventListener('submit', function (e) {
     }
     playSound();
 });
+
 form.addEventListener('reset', function (e) {
     e.preventDefault();
     settings();
 });
+
 chooseImg.addEventListener('click', function () {
     imgInput.click();
 });
-// Function to save tasks to local storage
+
 function saveTasksToLocalStorage() {
     const tasksData = Array.from(tasks.querySelectorAll("h3")).map(task => task.textContent);
     localStorage.setItem('tasks', JSON.stringify(tasksData));
 }
-// Function to retrieve tasks from local storage and render them
+
 function renderTasksFromLocalStorage() {
     const tasksData = JSON.parse(localStorage.getItem('tasks')) || [];
     tasksData.forEach((taskText) => {
